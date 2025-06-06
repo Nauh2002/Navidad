@@ -2,6 +2,7 @@ import java.time.LocalDate
 import java.time.DayOfWeek
 
 
+// Punto 1
 class Persona{
     lateinit var criterioEleccionRegalo : CriterioEleccionRegalo
 
@@ -9,6 +10,7 @@ class Persona{
 }
 
 
+// Strategy: desacoplar algoritmo de eleccion de un regalo
 interface CriterioEleccionRegalo {
     fun leGusta (regalo: Regalo) : Boolean
 }
@@ -29,16 +31,18 @@ class Marquera (var marca: String) : CriterioEleccionRegalo {
     override fun leGusta (regalo: Regalo) = regalo.marca == marca
 }
 
+// Composite: rama y las anteriores son las hojas y funcionan de manera polimorfica
 class Combineta : CriterioEleccionRegalo{
     val criterioEleccionRegalo = mutableListOf<CriterioEleccionRegalo>()
     override fun leGusta (regalo: Regalo) = criterioEleccionRegalo.any{ it.leGusta(regalo) }
 }
 
-
+// Punto 2
 abstract class Regalo(val precio: Int,val marca: String) {
-
+    //Template Method
     open fun esValioso() = precio >= 5000 && condicionEspecifica()
 
+    //Primitiva
     abstract fun condicionEspecifica(): Boolean
 }
 
